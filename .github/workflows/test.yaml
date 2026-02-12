@@ -3,7 +3,6 @@ name: Run data update
 on:
   workflow_dispatch:
   workflow_call:
-  workflow_run:
 
 jobs:
   update:
