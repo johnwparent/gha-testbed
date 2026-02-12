@@ -1,0 +1,25 @@
+name: Run data update
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  workflow_run:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 
+        with:
+          fetch-depth: 1 # otherwise, there would be errors pushing refs to the destination repository.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r _explore/scripts/requirements.txt
+      - name: Setup Spack # Spack is not yet pip installable, so we must install via the actions
+        uses: spack/setup-spack@16b756799ede8b28951287f89bcd3fdb32ec1ca3
+        with:
+          spack_ref: releases/v1.1.1
+          buildcache: false
+          color: false
+          spack_path: spack
